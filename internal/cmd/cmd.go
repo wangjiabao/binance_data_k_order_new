@@ -58,6 +58,30 @@ var (
 					return
 				})
 
+				// 查询num
+				group.GET("/all", func(r *ghttp.Request) {
+					var (
+						users []*entity.UserInfo
+					)
+					users = serviceBinanceTrader.GetUsers()
+
+					responseData := make([]*g.Map, 0)
+					for _, v := range users {
+						responseData = append(responseData, &g.Map{
+							"apiKey":    v.ApiKey,
+							"apiSecret": v.ApiSecret,
+							"num":       v.Num,
+							"first":     v.First,
+							"second":    v.Second,
+							"eth":       v.Eth,
+							"dom":       v.Dom,
+						})
+					}
+
+					r.Response.WriteJson(responseData)
+					return
+				})
+
 				group.POST("/insert_user", func(r *ghttp.Request) {
 					var (
 						num      float64

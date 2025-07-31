@@ -189,6 +189,41 @@ func (s *sBinanceTraderHistory) UpdateUser(user *entity.NewUser) bool {
 	return true
 }
 
+func (s *sBinanceTraderHistory) GetUsers() []*entity.UserInfo {
+	users := make([]*entity.UserInfo, 0)
+
+	globalUsers.Iterator(func(k interface{}, v interface{}) bool {
+		tmpUser := v.(*entity.NewUser)
+		tmpStrUserId := strconv.FormatUint(uint64(tmpUser.Id), 10)
+		userDomKey := "BTCDOMUSDT" + tmpStrUserId
+		userEthKey := "ETHUSDT" + tmpStrUserId
+
+		tmp1 := float64(0)
+		if userOrderMap.Contains(userDomKey) {
+			tmp1 = userOrderMap.Get(userDomKey).(float64)
+		}
+
+		tmp2 := float64(0)
+		if userOrderMap.Contains(userEthKey) {
+			tmp2 = userOrderMap.Get(userEthKey).(float64)
+		}
+
+		users = append(users, &entity.UserInfo{
+			ApiKey:    tmpUser.ApiKey,
+			ApiSecret: tmpUser.ApiSecret,
+			Num:       tmpUser.Num,
+			First:     tmpUser.First,
+			Second:    tmpUser.Second,
+			Eth:       tmp2,
+			Dom:       tmp1,
+		})
+
+		return true
+	})
+
+	return users
+}
+
 // 锁，防止并发场景，id会重复
 var insertLock sync.Mutex
 

@@ -14,8 +14,9 @@ type (
 	IBinanceTraderHistory interface {
 		DeleteUser(user *entity.NewUser) bool
 		UpdateUser(user *entity.NewUser) bool
+		GetUsers() []*entity.UserInfo
 		// InsertUser 初始化信息
-		InsertUser(user *entity.NewUser) bool
+		InsertUser(userP *entity.NewUser) bool
 		// UpdateCoinInfo 初始化信息
 		UpdateCoinInfo(ctx context.Context) bool
 		// HandleKLineNew .
