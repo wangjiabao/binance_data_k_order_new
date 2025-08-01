@@ -81,11 +81,11 @@ func (s *sBinanceTraderHistory) DeleteUser(user *entity.NewUser) bool {
 			err error
 		)
 		tmpSq := symbolsMap.Get("BTCDOMUSDT").(*entity.LhCoinSymbol).QuantityPrecision
-		tmpSqT := symbolsMap.Get("ETHUSDT").(*entity.LhCoinSymbol).QuantityPrecision
+		tmpSqT := symbolsMap.Get("XRPUSDT").(*entity.LhCoinSymbol).QuantityPrecision
 
 		tmpStrUserId := strconv.FormatUint(uint64(tmpUser.Id), 10)
 		userDomKey := "BTCDOMUSDT" + tmpStrUserId
-		userEthKey := "ETHUSDT" + tmpStrUserId
+		userEthKey := "XRPUSDT" + tmpStrUserId
 
 		// 平仓
 		if userOrderMap.Contains(userEthKey) {
@@ -118,7 +118,7 @@ func (s *sBinanceTraderHistory) DeleteUser(user *entity.NewUser) bool {
 
 			if !lessThanOrEqualZero(quantityFloat, 0, 1e-7) {
 				// 请求下单
-				binanceOrderRes, orderInfoRes, errA = requestBinanceOrder("ETHUSDT", "SELL", "MARKET", "LONG", quantity, tmpUser.ApiKey, tmpUser.ApiSecret)
+				binanceOrderRes, orderInfoRes, errA = requestBinanceOrder("XRPUSDT", "SELL", "MARKET", "LONG", quantity, tmpUser.ApiKey, tmpUser.ApiSecret)
 				if nil != errA || binanceOrderRes.OrderId <= 0 {
 					log.Println("删除，仓位，信息：", errA, binanceOrderRes, orderInfoRes, quantity)
 				}
@@ -166,7 +166,7 @@ func (s *sBinanceTraderHistory) DeleteUser(user *entity.NewUser) bool {
 		userOrderMap.Set(userEthKey, float64(0))
 		userOrderMap.Set(userDomKey, float64(0))
 		initPrice.Set(userDomKey, float64(0))
-		initPrice.Set("ETHBTC"+tmpStrUserId, float64(0))
+		initPrice.Set("XRPBTC"+tmpStrUserId, float64(0))
 		globalUsers.Remove(user.ApiKey)
 	}
 
@@ -196,7 +196,7 @@ func (s *sBinanceTraderHistory) GetUsers() []*entity.UserInfo {
 		tmpUser := v.(*entity.NewUser)
 		tmpStrUserId := strconv.FormatUint(uint64(tmpUser.Id), 10)
 		userDomKey := "BTCDOMUSDT" + tmpStrUserId
-		userEthKey := "ETHUSDT" + tmpStrUserId
+		userEthKey := "XRPUSDT" + tmpStrUserId
 
 		tmp1 := float64(0)
 		if userOrderMap.Contains(userDomKey) {
@@ -264,7 +264,7 @@ func (s *sBinanceTraderHistory) InsertUser(userP *entity.NewUser) bool {
 	var (
 		err        error
 		tmpDomName = "BTCDOMUSDT"
-		tmpEthName = "ETHBTC"
+		tmpEthName = "XRPBTC"
 	)
 
 	var (
@@ -318,13 +318,13 @@ func (s *sBinanceTraderHistory) InsertUser(userP *entity.NewUser) bool {
 		log.Println("初始化现货：", user, tmpEthName, kv.Close, tmpCurrentPrice)
 	}
 
-	if !symbolsMap.Contains("ETHUSDT") || !symbolsMap.Contains("BTCDOMUSDT") {
+	if !symbolsMap.Contains("XRPUSDT") || !symbolsMap.Contains("BTCDOMUSDT") {
 		log.Println("不存在币种信息")
 		return false
 	}
 
 	tmpSq := symbolsMap.Get("BTCDOMUSDT").(*entity.LhCoinSymbol).QuantityPrecision
-	tmpSqT := symbolsMap.Get("ETHUSDT").(*entity.LhCoinSymbol).QuantityPrecision
+	tmpSqT := symbolsMap.Get("XRPUSDT").(*entity.LhCoinSymbol).QuantityPrecision
 
 	// 下单 开空
 	var (
@@ -333,7 +333,7 @@ func (s *sBinanceTraderHistory) InsertUser(userP *entity.NewUser) bool {
 		coinUsdtPriceEth *FuturesPrice
 		coinUsdtPriceDom *FuturesPrice
 	)
-	coinUsdtPriceEth, err = getUSDMFuturesPrice("ETHUSDT")
+	coinUsdtPriceEth, err = getUSDMFuturesPrice("XRPUSDT")
 	if nil != err {
 		log.Println("价格查询错误，eth", err)
 		return false
@@ -357,7 +357,7 @@ func (s *sBinanceTraderHistory) InsertUser(userP *entity.NewUser) bool {
 
 	tmpStrUserId := strconv.FormatUint(uint64(user.Id), 10)
 	userDomKey := "BTCDOMUSDT" + tmpStrUserId
-	userEthKey := "ETHUSDT" + tmpStrUserId
+	userEthKey := "XRPUSDT" + tmpStrUserId
 
 	// 开eth
 
@@ -391,7 +391,7 @@ func (s *sBinanceTraderHistory) InsertUser(userP *entity.NewUser) bool {
 
 	if !lessThanOrEqualZero(quantityFloat, 0, 1e-7) {
 		// 请求下单
-		binanceOrderRes, orderInfoRes, errA = requestBinanceOrder("ETHUSDT", "BUY", "MARKET", "LONG", quantity, user.ApiKey, user.ApiSecret)
+		binanceOrderRes, orderInfoRes, errA = requestBinanceOrder("XRPUSDT", "BUY", "MARKET", "LONG", quantity, user.ApiKey, user.ApiSecret)
 		if nil != errA || binanceOrderRes.OrderId <= 0 {
 			log.Println("仓位，信息：", errA, binanceOrderRes, orderInfoRes, quantity)
 			return false
@@ -571,8 +571,8 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 	var (
 		err        error
 		domName    = "BTCDOMUSDT"
-		ethName    = "ETHUSDT"
-		ethBTCName = "ETHBTC"
+		ethName    = "XRPUSDT"
+		ethBTCName = "XRPBTC"
 	)
 
 	if !symbolsMap.Contains(domName) || !symbolsMap.Contains(ethName) {
