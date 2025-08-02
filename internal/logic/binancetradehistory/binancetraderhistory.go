@@ -903,13 +903,13 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 			userEthKey := ethName + tmpStrUserId
 
 			// 初始化
-			if !initPrice.Contains(userEthKey) {
-				initPrice.Set(userEthKey, tmpCurrentPrice)
-				log.Println("合约：", domName, k.Close, tmpCurrentPrice)
+			if !initPrice.Contains(ethBTCName + tmpStrUserId) {
+				initPrice.Set(ethBTCName+tmpStrUserId, tmpCurrentPrice)
+				log.Println("合约：", ethName, k.Close, tmpCurrentPrice)
 				return true
 			}
 
-			tmpInitPrice := initPrice.Get(ethBTCName).(float64)
+			tmpInitPrice := initPrice.Get(ethBTCName + tmpStrUserId).(float64)
 
 			if floatGreater(tmpCurrentPrice, tmpInitPrice, 1e-8) {
 				// 涨价
@@ -919,7 +919,7 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				}
 
 				// 更新初始化价格
-				initPrice.Set(ethBTCName, tmpCurrentPrice)
+				initPrice.Set(ethBTCName+tmpStrUserId, tmpCurrentPrice)
 
 				if !userOrderMap.Contains(userEthKey) {
 					log.Println("错误，无仓位", userEthKey)
@@ -1021,7 +1021,7 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				}
 
 				// 更新初始化价格
-				initPrice.Set(ethBTCName, tmpCurrentPrice)
+				initPrice.Set(ethBTCName+tmpStrUserId, tmpCurrentPrice)
 
 				if !userOrderMap.Contains(userEthKey) {
 					log.Println("错误，无仓位", userEthKey)
