@@ -678,7 +678,7 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				}
 
 				// 关仓数量
-				tmpQty := qtyRate * tmpSubRate * tmpUser.Second / priceDom
+				tmpQty := qtyRate * tmpSubRate / tmpUser.First * tmpUser.Second / priceDom
 				log.Println("关仓信息，dom", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
 
 				// 精度调整
@@ -780,7 +780,7 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				}
 
 				// 开仓数量
-				tmpQty := qtyRate * tmpSubRate * tmpUser.Second / priceDom
+				tmpQty := qtyRate * tmpSubRate / tmpUser.First * tmpUser.Second / priceDom
 				log.Println("开仓信息，dom", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
 
 				// 精度调整
@@ -942,7 +942,7 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				}
 
 				// 关仓数量
-				tmpQty := qtyRate * tmpSubRate * tmpUser.Second / priceEth
+				tmpQty := qtyRate * tmpSubRate / tmpUser.First * tmpUser.Second / priceEth
 				log.Println("关仓信息，dom", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
 
 				// 精度调整
@@ -1044,7 +1044,7 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				}
 
 				// 开仓数量
-				tmpQty := qtyRate * tmpSubRate * tmpUser.Second / priceEth
+				tmpQty := qtyRate * tmpSubRate / tmpUser.First * tmpUser.Second / priceEth
 				log.Println("开仓信息，dom", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
 
 				// 精度调整
