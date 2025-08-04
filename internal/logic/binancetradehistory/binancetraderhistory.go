@@ -672,9 +672,9 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				qtyRate := float64(1)
 				// dom重
 				if floatGreater(domQty*priceDom, ethQty*priceEth, 1e-4) {
-					qtyRate = ethQty * priceEth / domQty * priceDom
+					qtyRate = ethQty * priceEth / (domQty * priceDom)
 				} else if floatGreater(ethQty*priceEth, domQty*priceDom, 1e-4) {
-					qtyRate = domQty * priceDom / ethQty * priceEth
+					qtyRate = domQty * priceDom / (ethQty * priceEth)
 				}
 
 				// 关仓数量
@@ -774,9 +774,9 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				qtyRate := float64(1)
 				// dom重
 				if floatGreater(domQty*priceDom, ethQty*priceEth, 1e-4) {
-					qtyRate = ethQty * priceEth / domQty * priceDom
+					qtyRate = ethQty * priceEth / (domQty * priceDom)
 				} else if floatGreater(ethQty*priceEth, domQty*priceDom, 1e-4) {
-					qtyRate = domQty * priceDom / ethQty * priceEth
+					qtyRate = domQty * priceDom / (ethQty * priceEth)
 				}
 
 				// 开仓数量
@@ -936,14 +936,14 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				qtyRate := float64(1)
 				// dom重
 				if floatGreater(domQty*priceDom, ethQty*priceEth, 1e-4) {
-					qtyRate = ethQty * priceEth / domQty * priceDom
+					qtyRate = ethQty * priceEth / (domQty * priceDom)
 				} else if floatGreater(ethQty*priceEth, domQty*priceDom, 1e-4) {
-					qtyRate = domQty * priceDom / ethQty * priceEth
+					qtyRate = domQty * priceDom / (ethQty * priceEth)
 				}
 
 				// 关仓数量
 				tmpQty := qtyRate * tmpSubRate * tmpUser.Second / priceEth
-				log.Println("关仓信息，dom", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
+				log.Println("关仓信息，eth", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
 
 				// 精度调整
 				var (
@@ -1038,14 +1038,14 @@ func (s *sBinanceTraderHistory) HandleKLineNew(ctx context.Context) {
 				qtyRate := float64(1)
 				// dom重
 				if floatGreater(domQty*priceDom, ethQty*priceEth, 1e-4) {
-					qtyRate = ethQty * priceEth / domQty * priceDom
+					qtyRate = ethQty * priceEth / (domQty * priceDom)
 				} else if floatGreater(ethQty*priceEth, domQty*priceDom, 1e-4) {
-					qtyRate = domQty * priceDom / ethQty * priceEth
+					qtyRate = domQty * priceDom / (ethQty * priceEth)
 				}
 
 				// 开仓数量
 				tmpQty := qtyRate * tmpSubRate * tmpUser.Second / priceEth
-				log.Println("开仓信息，dom", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
+				log.Println("开仓信息，eth", tmpInitPrice, tmpCurrentPrice, tmpUser, domQty, ethQty, priceDom, priceEth, qtyRate, tmpQty)
 
 				// 精度调整
 				var (
